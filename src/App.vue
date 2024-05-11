@@ -9,7 +9,7 @@ const ch = 400;
 
 const numBodies = ref(30)
 
-const G = ref(20)
+const G = ref(10)
 const speedLimit = ref(10)
 const bouncyEdge = ref(0.6)
 
