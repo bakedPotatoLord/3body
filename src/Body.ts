@@ -10,7 +10,7 @@ export class Body {
   private G = 0;
   private speedLimit = 0;
   private bounce = 0;
-  
+
 
   constructor(x: number, y: number, vx: number, vy: number, r: number, color: string) {
     this.x = x
@@ -46,8 +46,8 @@ export class Body {
   }
 
   applyForce(fx: number, fy: number) {
-    this.vx += fx 
-    this.vy += fy 
+    this.vx += fx
+    this.vy += fy
   }
 
   getDistance(body: Body) {
@@ -63,6 +63,14 @@ export class Body {
     const fx = F * Math.cos(theta)
     const fy = F * Math.sin(theta)
     return { fx, fy }
+
+    // const dx = this.x - body.x;
+    // const dy = this.y - body.y;
+
+    // const fx = -this.G * dx / (Math.hypot(dx,dy)**3)
+    // const fy = -this.G * dy / (Math.hypot(dx,dy)**3)
+
+    // return {fx,fy}
   }
 
   update(bodies: Body[]) {
@@ -84,31 +92,31 @@ export class Body {
     ctx.fill()
   }
 
-  applyEdgeless(cw:number, ch:number) {
-    if(this.x < 0) {
+  applyEdgeless(cw: number, ch: number) {
+    if (this.x < 0) {
       this.x = cw;
-    } else if(this.x > cw) {
+    } else if (this.x > cw) {
       this.x = 0;
     }
-    if(this.y < 0) {
+    if (this.y < 0) {
       this.y = ch;
-    } else if(this.y > ch) {
+    } else if (this.y > ch) {
       this.y = 0;
     }
   }
 
-  applyBouncyEdge(cw:number, ch:number) {
-    if(this.x < 0) {
+  applyBouncyEdge(cw: number, ch: number) {
+    if (this.x < 0) {
       this.vx = -this.vx * this.bounce
       this.x = 0
-    } else if(this.x > cw) {
+    } else if (this.x > cw) {
       this.vx = -this.vx * this.bounce
       this.x = cw
     }
-    if(this.y < 0) {
+    if (this.y < 0) {
       this.vy = -this.vy * this.bounce
       this.y = 0
-    } else if(this.y > ch) {
+    } else if (this.y > ch) {
       this.vy = -this.vy * this.bounce
       this.y = ch
     }
@@ -116,7 +124,7 @@ export class Body {
 
   applySpeedLimit() {
     const v = Math.hypot(this.vx, this.vy)
-    if(v > this.speedLimit) {
+    if (v > this.speedLimit) {
       this.vx = this.vx / v * this.speedLimit
       this.vy = this.vy / v * this.speedLimit
     }
