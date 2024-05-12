@@ -10,7 +10,7 @@ const canvas2 = ref<HTMLCanvasElement | null>(null)
 const cw = 400;
 const ch = 400;
 
-const numBodies = ref(30)
+const numBodies = ref(10)
 
 const G = ref(3)
 const speedLimit = ref(5)
@@ -81,7 +81,7 @@ onMounted(() => {
 
 <template>
   <div class="head">
-    <h1>3 Body</h1>
+    <h1>{{ numBodies }} Body Simulation</h1>
   </div>
   <div class="main">
     <div class="canvas">
