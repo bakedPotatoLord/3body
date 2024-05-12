@@ -2,7 +2,10 @@
 import { ref, onMounted } from 'vue'
 import { Body } from './Body.ts'
 
+import type { vec2 } from './Body.ts'
+
 const canvas = ref<HTMLCanvasElement | null>(null)
+const canvas2 = ref<HTMLCanvasElement | null>(null)
 
 const cw = 400;
 const ch = 400;
@@ -14,25 +17,34 @@ const speedLimit = ref(10)
 const bouncyEdge = ref(0.6)
 
 let bodies: Body[];
+let ctx: CanvasRenderingContext2D;
+let ctx2: CanvasRenderingContext2D;
 
-function init() {
-  bodies = Array(numBodies.value).fill(0).map(()=>Body.randomWithin(0, cw, 0, ch,-0, 0.0, -0.0, 0.0));
+function init(ctx: CanvasRenderingContext2D[]) {
+  bodies = Array(numBodies.value).fill(0).map((_,i)=>Body.randomWithin(0, cw, 0, ch,-0, 0.0, -0.0, 0.0,`hsl(${i/numBodies.value*360}, 100%, 50%)`));
+
+  ctx.forEach((ctx) => ctx.clearRect(0,0,cw,ch))
+
 }
 
 onMounted(() => {
-  if (canvas.value) {
-    const ctx = canvas.value.getContext('2d')
+  if (canvas.value!= null && canvas2.value) {
+    ctx = <CanvasRenderingContext2D>canvas.value.getContext('2d')
+    ctx2 = <CanvasRenderingContext2D>canvas2.value.getContext('2d')
     canvas.value.width = cw;
     canvas.value.height = ch;
 
-    if (ctx != null) {
+    canvas2.value.width = cw;
+    canvas2.value.height = ch;
+
+    if (ctx != null && ctx2 != null) {
       
-      init();
+      init([ctx, ctx2]);
 
       function draw(ctx: CanvasRenderingContext2D) {
         requestAnimationFrame(()=>{draw(ctx)});
 
-        ctx?.clearRect(0,0,cw,ch);
+        ctx.clearRect(0,0,cw,ch);
 
         for(let body of bodies) {
           body.setConstants(G.value, speedLimit.value, bouncyEdge.value)
@@ -46,8 +58,21 @@ onMounted(() => {
         }
       }
 
-      draw(ctx);
+      function plotMovement(ctx: CanvasRenderingContext2D) {
+        requestAnimationFrame(()=>{plotMovement(ctx)});
+        for(let body of bodies) {
+          ctx.strokeStyle = body.color;
+          ctx.beginPath();
+          ctx.moveTo(body.x, body.y)
+          const pos = <vec2>body.pos.at(-2);
+          ctx.lineTo(pos[0], pos[1])  
+          ctx.stroke(); 
+        }
+      }
 
+      //initialize anim loops
+      draw(ctx);
+      plotMovement(ctx2)
     }
   }
 })
@@ -81,7 +106,10 @@ onMounted(() => {
         <input id="EdgeBounce" type="number" v-model="bouncyEdge" min="0" max="1">
       </div>
 
-      <button @click="init()">start</button>
+      <button @click="init([ctx, ctx2])" >start</button>
+    </div>
+    <div class="canvas">
+      <canvas ref="canvas2"></canvas>
     </div>
   </div>
 </template>

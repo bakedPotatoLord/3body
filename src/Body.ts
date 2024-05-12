@@ -1,7 +1,9 @@
 
+export type vec2 = [number, number]
+
 export class Body {
-  private x: number
-  private y: number
+  public x: number
+  public y: number
   private vx: number
   private vy: number
   private r: number
@@ -11,6 +13,7 @@ export class Body {
   private speedLimit = 0;
   private bounce = 0;
 
+  public pos: vec2[] = [];
 
   constructor(x: number, y: number, vx: number, vy: number, r: number, color: string) {
     this.x = x
@@ -19,14 +22,15 @@ export class Body {
     this.vy = vy
     this.r = r
     this.color = color
+    console.log("color", color)
   }
 
-  public static randomWithin(xmin: number, xmax: number, ymin: number, ymax: number, xvMin: number, xvMax: number, yvMin: number, yvMax: number) {
+  public static randomWithin(xmin: number, xmax: number, ymin: number, ymax: number, xvMin: number, xvMax: number, yvMin: number, yvMax: number, color: string) {
     const x = Math.random() * (xmax - xmin) + xmin
     const y = Math.random() * (ymax - ymin) + ymin
     const vx = Math.random() * (xvMax - xvMin) + xvMin
     const vy = Math.random() * (yvMax - yvMin) + yvMin
-    return new Body(x, y, vx, vy, 5, 'red')
+    return new Body(x, y, vx, vy, 5, color)
   }
 
   setPosition(x: number, y: number) {
@@ -80,6 +84,7 @@ export class Body {
       this.applyForce(fx, fy)
     }
     this.setPosition(this.x + this.vx, this.y + this.vy)
+    this.pos.push([this.x, this.y])
   }
 
   draw(ctx: CanvasRenderingContext2D) {
