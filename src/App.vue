@@ -12,8 +12,8 @@ const ch = 400;
 
 const numBodies = ref(30)
 
-const G = ref(10)
-const speedLimit = ref(10)
+const G = ref(3)
+const speedLimit = ref(5)
 const bouncyEdge = ref(0.6)
 
 let bodies: Body[];
