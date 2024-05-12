@@ -48,12 +48,14 @@ onMounted(() => {
 
         for(let body of bodies) {
           body.setConstants(G.value, speedLimit.value, bouncyEdge.value)
-          body.update(bodies)
+          body.calcGravity(bodies)
           //body.applyEdgeless(cw,ch)
           body.applyBouncyEdge(cw,ch)
 
           body.applySpeedLimit()
-          //@ts-ignore
+        }
+        for(let body of bodies) {
+          body.updatePosition()
           body.draw(ctx)
         }
       }
