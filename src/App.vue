@@ -16,7 +16,11 @@ const G = ref(3)
 const speedLimit = ref(5)
 const bouncyEdge = ref(0.6)
 
-let bodies: Body[];
+const ballMass = ref(1)
+
+const kineticEnergy = ref(0)
+
+let bodies: Body[] = [];
 let ctx: CanvasRenderingContext2D;
 let ctx2: CanvasRenderingContext2D;
 
@@ -58,6 +62,7 @@ onMounted(() => {
           body.updatePosition()
           body.draw(ctx)
         }
+        kineticEnergy.value = calculateEnergy(bodies)
       }
 
       function plotMovement(ctx: CanvasRenderingContext2D) {
@@ -78,6 +83,11 @@ onMounted(() => {
     }
   }
 })
+
+
+function calculateEnergy(arr:Body[]) {
+  return arr.reduce((acc, body) => acc + body.getEnergy(), 0)
+}
 
 </script>
 
@@ -108,7 +118,18 @@ onMounted(() => {
         <input id="EdgeBounce" type="number" v-model="bouncyEdge" min="0" max="1">
       </div>
 
+      <div class="control">
+        <label for="ballMass">ball Mass (kg)</label>
+        <input id="ballMass" type="number" v-model="ballMass" min="0.0000001" max="5">
+      </div>
+
+
       <button @click="init([ctx, ctx2])" >start</button>
+
+      <div class="text">
+        <p>assumes that one pixel is i mm </p>
+        <p>Kinetic Energy: {{ kineticEnergy.toPrecision(8) }}</p>
+      </div>
     </div>
     <div class="canvas">
       <canvas ref="canvas2"></canvas>
