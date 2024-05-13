@@ -155,6 +155,7 @@ function calculateEnergy(arr:Body[]) {
   .main {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     .canvas {
       padding: 3rem;
       canvas{
