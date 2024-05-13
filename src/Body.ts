@@ -144,8 +144,20 @@ export class Body {
   }
 
   applyElasticCollision(body: Body) {
+    const dx = this.x - body.x
+    const dy = this.y = body.y
 
+    const DP:vec2 = [dx, dy]
+    const v:vec2 = [this.vx, this.vy]
+
+    const vParallel = this.parallelComponent(v, DP)
+    const vPerpendicular = this.perpendicularComponent(v, DP)
+
+    this.vx = vPerpendicular[0] - vParallel[0]
+    this.vy = vPerpendicular[1] - vParallel[1]
+    
   }
+
 
   magnitude(V: vec2): number {
     return Math.hypot(V[0], V[1]);

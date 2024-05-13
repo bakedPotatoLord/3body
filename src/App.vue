@@ -56,6 +56,10 @@ onMounted(() => {
           //body.applyEdgeless(cw,ch)
           body.applyBouncyEdge(cw,ch)
 
+          // for(let body2 of bodies)
+          //   if(body.isTouching(body2))
+          //     body.applyElasticCollision(body2)
+
           body.applySpeedLimit()
         }
         for(let body of bodies) {
