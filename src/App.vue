@@ -166,6 +166,7 @@ function calculateEnergy(arr:Body[]) {
       padding: 3rem;
       display: flex;
       flex-direction: column;
+      min-width: 300px;
 
       .control{
         display: flex;
