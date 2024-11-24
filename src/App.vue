@@ -7,8 +7,8 @@ import type { vec2 } from './Body.ts'
 const canvas = ref<HTMLCanvasElement | null>(null)
 const canvas2 = ref<HTMLCanvasElement | null>(null)
 
-const cw = 400;
-const ch = 400;
+const cw = 800;
+const ch = 800;
 
 const numBodies = ref(10)
 
@@ -160,6 +160,7 @@ function calculateEnergy(arr:Body[]) {
       padding: 3rem;
       canvas{
         border: 2px dashed black;
+        transform: scale(0.5,0.5);
       }
     }
     .controls {
